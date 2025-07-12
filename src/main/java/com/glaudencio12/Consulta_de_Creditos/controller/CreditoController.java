@@ -8,14 +8,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/creditos/")
 public class CreditoController {
     @Autowired
     private CreditoService service;
 
-    @GetMapping(value = "/{numeroCredito}")
+    @GetMapping(value = "/credito/{numeroCredito}")
     public CreditoDTO findById(@PathVariable("numeroCredito") String numeroCredito){
         return service.findCreditById(numeroCredito);
+    }
+
+    @GetMapping(value = "/{numeroNsfe}")
+    public List<CreditoDTO> findAll(@PathVariable("numeroNsfe") String numeroNsfe){
+        return service.findAllCredit(numeroNsfe);
     }
 }
