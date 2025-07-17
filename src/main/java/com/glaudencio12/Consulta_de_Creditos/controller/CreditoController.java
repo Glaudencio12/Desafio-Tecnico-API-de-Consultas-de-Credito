@@ -18,11 +18,11 @@ public class CreditoController {
 
     @GetMapping(value = "/credito/{numeroCredito}")
     public CreditoDTO findById(@PathVariable("numeroCredito") String numeroCredito){
-        return service.findCreditByNumero(numeroCredito);
+        return service.findCreditByNumber(numeroCredito);
     }
 
     @GetMapping(value = "/{numeroNsfe}")
     public List<CreditoDTO> findAll(@PathVariable("numeroNsfe") String numeroNsfe){
-        return service.findAllCredit(numeroNsfe);
+        return service.findAllCreditNumberNsfe(numeroNsfe);
     }
 }

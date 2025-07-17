@@ -1,10 +1,9 @@
-package com.glaudencio12.Consulta_de_Creditos;
+package com.glaudencio12.Consulta_de_Creditos.mock;
 import com.glaudencio12.Consulta_de_Creditos.dto.CreditoDTO;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Random;
 
 public class MockCredito {
 

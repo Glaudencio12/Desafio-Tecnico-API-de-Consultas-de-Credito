@@ -11,7 +11,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class HateoasLinks {
     public void links(CreditoDTO dto){
         dto.add(linkTo(methodOn(CreditoController.class).findById(dto.getNumeroCredito()))
-                .withRel("findCreditByNumero")
+                .withRel("findCreditByNumber")
                 .withType("GET")
                 .withTitle("Retorna os detalhes de um crédito constituído específico com base no número do crédito constituído.")
         );

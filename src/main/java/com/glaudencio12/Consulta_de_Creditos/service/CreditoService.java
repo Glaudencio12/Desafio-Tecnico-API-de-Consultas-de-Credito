@@ -8,7 +8,6 @@ import com.glaudencio12.Consulta_de_Creditos.repository.CreditoRepository;
 import com.glaudencio12.Consulta_de_Creditos.utils.HateoasLinks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class CreditoService {
         this.hateoasLinks = hateoasLinks;
     }
 
-    public CreditoDTO findCreditByNumero(String numeroCredito){
+    public CreditoDTO findCreditByNumber(String numeroCredito){
         logger.info("Busca ao crédito constituído");
         List<Credito> creditoList = repository.findAll();
         if (creditoList.isEmpty()) {
@@ -44,7 +43,7 @@ public class CreditoService {
         }
     }
 
-    public List<CreditoDTO> findAllCredit(String numeroNfse){
+    public List<CreditoDTO> findAllCreditNumberNsfe(String numeroNfse){
         logger.info("Busca a todos os créditos");
         List<Credito> creditoList = repository.findAll();
         if (creditoList.isEmpty()) {
