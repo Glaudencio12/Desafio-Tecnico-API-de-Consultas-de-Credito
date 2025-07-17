@@ -18,7 +18,7 @@ public class CreditoController {
 
     @GetMapping(value = "/credito/{numeroCredito}")
     public CreditoDTO findById(@PathVariable("numeroCredito") String numeroCredito){
-        return service.findCreditById(numeroCredito);
+        return service.findCreditByNumero(numeroCredito);
     }
 
     @GetMapping(value = "/{numeroNsfe}")

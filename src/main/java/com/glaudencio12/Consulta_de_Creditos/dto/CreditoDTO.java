@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class CreditoDTO extends RepresentationModel<CreditoDTO> {
