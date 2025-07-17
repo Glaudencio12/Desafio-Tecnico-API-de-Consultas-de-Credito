@@ -30,7 +30,7 @@ public class CreditoService {
         logger.info("Busca ao crédito constituído");
         List<Credito> creditoList = repository.findAll();
         if (creditoList.isEmpty()) {
-            throw new NotFoundException("Nenhum crédito encontrado na base de dados com o número especificado");
+            throw new NotFoundException("Nenhum crédito encontrado com o número especificado");
         }else {
             Credito entidade = null;
             for (Credito credito : creditoList) {
@@ -48,7 +48,7 @@ public class CreditoService {
         logger.info("Busca a todos os créditos");
         List<Credito> creditoList = repository.findAll();
         if (creditoList.isEmpty()) {
-            throw new NotFoundException("Não ha créditos com o número NFS-E especificado");
+            throw new NotFoundException("Nenhum crédito encontrado com o número NFS-E especificado");
         }else {
             List<CreditoDTO> creditos = new ArrayList<>();
             for (Credito credito : creditoList) {

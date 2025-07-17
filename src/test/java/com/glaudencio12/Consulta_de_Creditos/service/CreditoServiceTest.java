@@ -2,6 +2,7 @@ package com.glaudencio12.Consulta_de_Creditos.service;
 
 import com.glaudencio12.Consulta_de_Creditos.MockCredito;
 import com.glaudencio12.Consulta_de_Creditos.dto.CreditoDTO;
+import com.glaudencio12.Consulta_de_Creditos.exceptions.NotFoundException;
 import com.glaudencio12.Consulta_de_Creditos.mapper.ObjectMapper;
 import com.glaudencio12.Consulta_de_Creditos.model.Credito;
 import com.glaudencio12.Consulta_de_Creditos.repository.CreditoRepository;
@@ -41,9 +42,17 @@ class CreditoServiceTest {
         mockCredito = new MockCredito();
     }
 
+    public static void hateoasLinks(CreditoDTO dto, String rel, String href, String tipo){
+        assertTrue(dto.getLinks().stream().anyMatch(link ->
+                link.getRel().value().equals(rel) &&
+                link.getHref().endsWith(href) &&
+                link.getType().equals(tipo)
+        ));
+    }
+
     @Test
-    void findCreditByNumero() {
-        var creditoDTO = mockCredito.mockCreditoList().get(0);
+    void buscaUmCreditoConstituidoPeloNumero() {
+        var creditoDTO = mockCredito.mockCreditoList().getFirst();
         var creditoEntidade = ObjectMapper.parseObject(creditoDTO, Credito.class);
 
         when(repository.findAll()).thenReturn(List.of(creditoEntidade));
@@ -53,10 +62,13 @@ class CreditoServiceTest {
 
         assertNotNull(result);
         assertEquals(creditoDTO.getNumeroCredito(), result.getNumeroCredito());
+
+        hateoasLinks(result, "findCreditByNumero", "/api/creditos/credito/123456", "GET");
+        hateoasLinks(result, "findAllCredits", "/api/creditos/7891011", "GET");
     }
 
     @Test
-    void findAllCredit() {
+    void buscaTodosOsCreditosContituidosComOMesmoNumeroNfse() {
         var creditoListDTO = mockCredito.mockCreditoList();
         var creditoListEntidade = ObjectMapper.parseListObjects(creditoListDTO, Credito.class);
 
@@ -67,5 +79,33 @@ class CreditoServiceTest {
 
         assertNotNull(result);
         assertEquals(2, result.size());
+
+        CreditoDTO resultOne = result.getFirst();
+        hateoasLinks(resultOne, "findCreditByNumero", "/api/creditos/credito/123456", "GET");
+        hateoasLinks(resultOne, "findAllCredits", "/api/creditos/7891011", "GET");
+
+        CreditoDTO resultTwo = result.get(1);
+        hateoasLinks(resultTwo, "findCreditByNumero", "/api/creditos/credito/789012", "GET");
+        hateoasLinks(resultTwo, "findAllCredits", "/api/creditos/7891011", "GET");
+    }
+
+    @Test
+    void retornaUmaExcecaoCasoNenhumCreditoComONumeroSejaEncontrado(){
+        Exception exception = assertThrows(NotFoundException.class, () -> {
+            service.findCreditByNumero(null);
+        });
+        String mensagemEsperada = "Nenhum crédito encontrado com o número especificado";
+        String mensagemAtual = exception.getMessage();
+        assertTrue(mensagemAtual.contains(mensagemEsperada));
+    }
+
+    @Test
+    void retornaUmaExcecaoCasoNenhumCreditoComONumeroNfseSejaEncontrado(){
+        Exception exception = assertThrows(NotFoundException.class, () -> {
+            service.findAllCredit(null);
+        });
+        String mensagemEsperada = "Nenhum crédito encontrado com o número NFS-E especificado";
+        String mensagemAtual = exception.getMessage();
+        assertTrue(mensagemAtual.contains(mensagemEsperada));
     }
 }
